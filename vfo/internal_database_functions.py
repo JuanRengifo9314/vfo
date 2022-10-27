@@ -47,7 +47,18 @@ def _getNodesandElements():
     
 	# Generate the element list by looping through all emenemts
 	for ii, ele in enumerate(eleList):
-		tempNodes = ops.eleNodes(ele)
+		
+		tempNodes_P = ops.eleNodes(ele)
+		
+		# Avoid fibers of SFI-MVLEM models, because it has negative node tags
+		tempNodes = []
+
+		for i in range( 0 , len(tempNodes_P) ):
+        
+			if tempNodes_P[i]>0: # Use only positive node tags
+            
+				tempNodes.append( tempNodes_P[i] )  
+		
 	
 		tempNnodes = len(tempNodes)
 		tempEle = np.zeros(tempNnodes + 1)
