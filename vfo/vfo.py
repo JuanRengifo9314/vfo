@@ -91,8 +91,18 @@ def createODB(model=None,loadcase=None, Nmodes=0, deltaT=0.0):
 	if not os.path.exists(ODBdir):
 			os.makedirs(ODBdir)
 
-	nodeList = ops.getNodeTags()
+	nodeList_P = ops.getNodeTags()
 	eleList = ops.getEleTags()
+	
+	# When using SFI-MVLEM-3D model, there are some negative node tags that generates errors    
+	nodeList = []
+
+	for i in range( 0 , len(nodeList_P) ):
+        
+		if nodeList_P[i]>0: # Use only positive node tags
+            
+			nodeList.append( nodeList_P[i] )
+	
 	
 	## get individual lists of elements for stress and strain recorder 
 	# for ele in eleList:
